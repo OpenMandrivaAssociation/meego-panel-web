@@ -1,0 +1,35 @@
+diff -rub meego-panel-web-0.2.0/common/mwb-ac-list.cc meego-panel-web-0.2.0.updated/common/mwb-ac-list.cc
+--- meego-panel-web-0.2.0/common/mwb-ac-list.cc	2010-08-31 19:46:35.000000000 +0800
++++ meego-panel-web-0.2.0.updated/common/mwb-ac-list.cc	2010-09-25 15:14:20.000000000 +0800
+@@ -966,6 +966,11 @@
+                                     "favicons",  
+                                     thumbnail_filename,  
+                                     NULL);  
++      if(!g_file_test(icon_path, G_FILE_TEST_EXISTS))
++	  {
++		  g_free(icon_path);
++      	  icon_path = g_strdup_printf("%s%s", THEMEDIR, "o2_globe.png");
++	  }
+       g_free(csum);  
+       g_free(thumbnail_filename);
+     }
+diff -rub meego-panel-web-0.2.0/netpanel/meego-netbook-netpanel.cc meego-panel-web-0.2.0.updated/netpanel/meego-netbook-netpanel.cc
+--- meego-panel-web-0.2.0/netpanel/meego-netbook-netpanel.cc	2010-08-31 19:46:35.000000000 +0800
++++ meego-panel-web-0.2.0.updated/netpanel/meego-netbook-netpanel.cc	2010-09-25 15:14:57.000000000 +0800
+@@ -53,6 +53,7 @@
+ #define DISPLAY_TABS_MAX 4
+ 
+ #define START_PAGE "meego://start/"
++#define NEWTAB_URL "chrome://newtab/"
+ 
+ #define FAVORITE_SQL  "SELECT url, title FROM urls " \
+                       "ORDER BY visit_count DESC LIMIT 9"
+@@ -614,7 +615,7 @@
+   int id = -1;
+   if (!meego_netbook_netpanel_open_tab (self, CMD_SELECT_TAB, &id))
+     {
+-      meego_netbook_netpanel_restore_tab (self, "");
++      meego_netbook_netpanel_restore_tab (self, NEWTAB_URL);
+     }
+ }
+ 

@@ -1,0 +1,45 @@
+diff --git a/netpanel/meego-netbook-netpanel.cc b/netpanel/meego-netbook-netpanel.cc
+index 7c0c002..d7f634d 100644
+--- a/netpanel/meego-netbook-netpanel.cc
++++ b/netpanel/meego-netbook-netpanel.cc
+@@ -582,8 +582,6 @@ meego_netbook_netpanel_launch_url (MeegoNetbookNetpanel *netpanel,
+     }
+ 
+   std::string browser_exec(priv->browser_name);
+-  if (browser_exec == "chromium")
+-    browser_exec.append("-browser");
+ 
+   exec = g_strdup_printf ("%s %s \"%s%s\"",
+                           browser_exec.c_str(),
+diff --git a/netpanel/meego-panel-web.cc b/netpanel/meego-panel-web.cc
+index 56f589a..42e2459 100644
+--- a/netpanel/meego-panel-web.cc
++++ b/netpanel/meego-panel-web.cc
+@@ -66,6 +66,8 @@ static GOptionEntry entries[] = {
+   {"standalone", 's', 0, G_OPTION_ARG_NONE, &standalone, "Do not embed into the mutter-meego panel", NULL}
+ };
+ 
++#define CHROME_EXE_PATH "/opt/google/chrome/chrome"
++#define CHROMIUM_EXE_PATH "/usr/lib/chromium-browser/chromium-browser"
+ 
+ int
+ main (int    argc,
+@@ -75,9 +77,17 @@ main (int    argc,
+   ClutterActor *stage;
+   MeegoNetbookNetpanel *netpanel;
+   GOptionContext *context;
+-  std::string browser_name = "chromium";
++  std::string browser_name = "chromium-browser";
+   GError *error = NULL;
+ 
++  if (g_file_test(CHROME_EXE_PATH, G_FILE_TEST_EXISTS) == TRUE) {
++    browser_name = "google-chrome";
++  } else if (g_file_test(CHROMIUM_EXE_PATH, G_FILE_TEST_EXISTS) == TRUE) {
++    browser_name = "chromium-browser";
++  } else {
++    g_warning("chromium-based browser is not installed\n");
++  }
++
+   setlocale (LC_ALL, "");
+   bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");

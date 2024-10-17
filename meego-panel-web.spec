@@ -4,7 +4,7 @@ Version: 0.2.0
 Release: %mkrel 1
 Group: System/Desktop
 License: LGPL 2.1
-URL: http://www.meego.com
+URL: https://www.meego.com
 Source0: http://repo.meego.com/MeeGo/releases/1.1/netbook/repos/source/%{name}-%{version}.tar.gz
 Source1: meego-panel-web
 Patch0: use_default_icon.patch
